@@ -146,5 +146,6 @@ build/qemu-system-arm \
 
 * Based on the original QEMU iOS reverse-engineering work by **devos50**.
 * Distributed under the GNU General Public License v2 (GPLv2).
+* For any issues, contact `.regedit.exe` on Discord, or email me, I might be able to help. 
 
 ```
