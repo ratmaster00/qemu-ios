@@ -49,7 +49,7 @@ sudo apt install build-essential ninja-build python3 python3-setuptools pkg-conf
 ### 1. Clone the Repository
 
 ```bash
-git clone [https://github.com/ratmaster00/qemu-ios.git](https://github.com/ratmaster00/qemu-ios.git) --branch ipod_touch_1g --depth=1
+git clone https://github.com/ratmaster00/qemu-ios.git --branch ipod_touch_1g
 cd qemu-ios
 
 ```
@@ -64,6 +64,9 @@ mkdir build && cd build
 ../configure \
   --target-list=arm-softmmu \
   --enable-sdl \
+  --disable-xkbcommon \
+  --disable-install-blobs \
+  --disable-guest-agent \
   --disable-libnfs \
   --disable-bpf \
   --disable-libusb \
@@ -79,11 +82,11 @@ mkdir build && cd build
   --extra-cflags="-Wno-error" \
   --extra-ldflags="-lcrypto"
 
-make -j$(nproc)
+ninja qemu-system-arm
 cd ..
-
 ```
 
+haven't tested, you might also need to run `make -j$(nproc)` and let it error out, before running ninja. 
 *Note: The build process takes roughly 5–15 minutes depending on your CPU. Compiling warnings are normal.*
 
 ---
@@ -95,12 +98,11 @@ The emulator requires firmware binaries (`bootrom`, `iboot`, `nor`, and unpacked
 If they are not present in your repository root, fetch them from the upstream release assets:
 
 ```bash
-wget [https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/bootrom_s5l8900](https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/bootrom_s5l8900)
-wget [https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/iboot_204_n45ap.bin](https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/iboot_204_n45ap.bin)
-wget [https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nor_n45ap.bin](https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nor_n45ap.bin)
-wget [https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nand_n45ap.zip](https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nand_n45ap.zip)
+wget https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/bootrom_s5l8900
+wget https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/iboot_204_n45ap.bin
+wget https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nor_n45ap.bin
+wget https://github.com/devos50/qemu-ios/releases/download/n45ap_v1/nand_n45ap.zip
 unzip nand_n45ap.zip
-
 ```
 
 Verify that you have a `nand/` directory containing `bank0` through `bank7` in the repository root.
